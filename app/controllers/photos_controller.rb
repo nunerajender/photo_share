@@ -57,7 +57,7 @@ before_action :set_photo, only: [:show, :edit, :update, :destroy]
       redirect_to photos_path, notice: "Not authorized to edit this Photo" if @photo.nil?
    		 end
 		def photo_params
-				params.require(:photo).permit(:user_id, :title, :text, :image)
+				params.require(:photo).permit(:user_id, :title, :text,  :image)
 		end		
 end
 
