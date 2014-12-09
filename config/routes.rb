@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 resources :photos
+ resources :relationships,       only: [:create, :destroy]
   devise_for :users
 
  root 'photos#index'

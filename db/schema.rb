@@ -11,11 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141208062127) do
+ActiveRecord::Schema.define(version: 20141208183418) do
 
   create_table "photos", force: true do |t|
     t.string   "title"
     t.text     "text"
+    t.date     "date"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "image_file_name"
@@ -27,13 +28,24 @@ ActiveRecord::Schema.define(version: 20141208062127) do
 
   add_index "photos", ["user_id"], name: "index_photos_on_user_id", using: :btree
 
+  create_table "relationships", force: true do |t|
+    t.integer  "subscriber_id"
+    t.integer  "subscribed_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "relationships", ["subscribed_id"], name: "index_relationships_on_subscribed_id", using: :btree
+  add_index "relationships", ["subscriber_id", "subscribed_id"], name: "index_relationships_on_subscriber_id_and_subscribed_id", unique: true, using: :btree
+  add_index "relationships", ["subscriber_id"], name: "index_relationships_on_subscriber_id", using: :btree
+
   create_table "users", force: true do |t|
-    t.string   "email",                  default: "",   null: false
-    t.string   "encrypted_password",     default: "",   null: false
+    t.string   "email",                  default: "",    null: false
+    t.string   "encrypted_password",     default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,    null: false
+    t.integer  "sign_in_count",          default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -41,7 +53,7 @@ ActiveRecord::Schema.define(version: 20141208062127) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
-    t.boolean  "subscribe",              default: true
+    t.boolean  "subscribe",              default: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
